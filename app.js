@@ -37,6 +37,7 @@ $(document).ready(function(){
             //console.log(response);
             taskFetch();
             $('#task-form').trigger('reset');
+            alert('Task add correct!');
         });
 
         e.preventDefault();
@@ -64,12 +65,15 @@ $(document).ready(function(){
     }
 
     $(document).on('click', '.task-delete', function () {
-        console.log('cliked');
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('taskId');
-        console.log(id);
-        $.POST('task-delete.php', {id}, function(response){
-            console.log(response);
-        })
-    })
+       if (confirm('Delete task it?')) {
+            console.log('cliked');
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('taskId');
+            console.log(id);
+            $.post('task-delete.php', {id}, function(response){
+                console.log(response);
+                taskFetch();
+            })
+       }    
+    }) 
 });
