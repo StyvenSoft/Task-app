@@ -54,10 +54,12 @@ $(document).ready(function(){
                 tasks.forEach(task => {
                     tabla += `<tr taskId='${task.id}'>
                             <td>${task.id}</td>
-                            <td>${task.name}</td>
-                            <td>${task.description}</td>
                             <td>
-                            <button class="task-delete btn btn-danger">X</button></td></tr>` 
+                                <a href="#" class="class-item">${task.name}</a>
+                            </td>
+                            <td>${task.description}</td>
+                            <td><button class="task-delete btn btn-danger">X</button></td>
+                            <td><button class="task-edit btn btn-info">E</button></td></tr>` 
                 });
                 $('#task').html(tabla);
             }
@@ -75,5 +77,21 @@ $(document).ready(function(){
                 taskFetch();
             })
        }    
-    }) 
+    });
+
+    $(document).on('click', '.class-item', function(){
+        console.log('Editing link.');
+    });
+    $(document).on('click', '.task-edit', function(){
+        console.log('Editing button.');
+        let element = $(this)[0].parentElement.parentElement;
+        let id = $(element).attr('taskId');
+        console.log(id);
+        $.post('task-single.php', {id}, function(response){
+            console.log(response);
+            const task = JSON.parse(response);
+            $('#name').val(task.name);
+            $('#description').val(task.description);
+        })
+    });
 });

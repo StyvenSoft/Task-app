@@ -1,18 +1,15 @@
 <?php
     include('database.php');
-    mysqli_set_charset($connection, "utf8"); 
 
-    $search = $_POST['search'];
-
-    if (!empty($search)) {
+    if (isset($_POST['id'])) {
         # code...
-        $query = "SELECT * FROM task WHERE name LIKE '$search%'";
+        $id = $_POST['id'];
+        $query = "SELECT * FROM task WHERE id = $id";
         $result = mysqli_query($connection, $query);
         if (!$result) {
             # code...
-            die('Error consulta'. mysqli_error($connection));
+            die('Query Failed');
         }
-
         $json = array();
         while ($row = mysqli_fetch_array($result)) {
             # code...
@@ -21,8 +18,8 @@
                 'description' => $row['description'],
                 'id' => $row['id']
             );
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
         }
+        $jsonstring = json_encode($json[0]);
+        echo $jsonstring;
     }
 ?>
