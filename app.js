@@ -19,7 +19,7 @@ $(document).ready(function(){
 
                     tasks.forEach(task =>{
                        console.log(tasks);
-                       template += `<li> ${task.name}</li>`
+                       template += `<li> ${task.name} [ ${task.description} ]</li>`
                     });
                     $('#contain').html(template);
                     //$('#task-result').show();
