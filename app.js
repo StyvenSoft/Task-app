@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    let editing = false;
     console.log('Jquery on!');
     //$('#task-result').hide();
     taskFetch();
@@ -31,10 +31,13 @@ $(document).ready(function(){
     $('#task-form').submit(function (e){
         const postData = {
             name: $('#name').val(),
-            description: $('#description').val()
+            description: $('#description').val(),
+            id: $('#taskId').val()
         };
-        $.post('task-add.php', postData, function (response){
+        let url = editing === false ? 'task-add.php' : 'task-edit.php';
+        $.post(url, postData, function (response){
             //console.log(response);
+            editing = false;
             taskFetch();
             $('#task-form').trigger('reset');
             alert('Task add correct!');
@@ -92,6 +95,8 @@ $(document).ready(function(){
             const task = JSON.parse(response);
             $('#name').val(task.name);
             $('#description').val(task.description);
+            $('#taskId').val(task.id)
+            editing = true;
         })
     });
 });
